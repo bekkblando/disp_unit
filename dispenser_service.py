@@ -21,9 +21,8 @@ def dispense():
     
     # Set all pins as output
     for pin in StepPins:
-    print "Setup pins"
-    GPIO.setup(pin,GPIO.OUT)
-    GPIO.output(pin, False)
+        GPIO.setup(pin,GPIO.OUT)
+        GPIO.output(pin, False)
     
     # Define advanced sequence
     # as shown in manufacturers datasheet
@@ -42,9 +41,9 @@ def dispense():
     
     # Read wait time from command line
     if len(sys.argv)>1:
-    WaitTime = int(sys.argv[1])/float(1000)
+        WaitTime = int(sys.argv[1])/float(1000)
     else:
-    WaitTime = 2/float(1000)
+        WaitTime = 2/float(1000)
     
     # Initialise variables
     StepCounter = 0
@@ -53,24 +52,24 @@ def dispense():
     timeout = time.time() + 10
     while time.time() < timeout:
     
-    print("Dispensing")
-    
-    for pin in range(0, 4):
-        xpin = StepPins[pin]
-        if Seq[StepCounter][pin]!=0:
-        print " Enable GPIO %i" %(xpin)
-        GPIO.output(xpin, True)
-        else:
-        GPIO.output(xpin, False)
-    
-    StepCounter += StepDir
-    
-    # If we reach the end of the sequence
-    # start again
-    if (StepCounter>=StepCount):
-        StepCounter = 0
-    if (StepCounter<0):
-        StepCounter = StepCount+StepDir
+        print("Dispensing")
+        
+        for pin in range(0, 4):
+            xpin = StepPins[pin]
+            if Seq[StepCounter][pin]!=0:
+            print " Enable GPIO %i" %(xpin)
+            GPIO.output(xpin, True)
+            else:
+            GPIO.output(xpin, False)
+        
+        StepCounter += StepDir
+        
+        # If we reach the end of the sequence
+        # start again
+        if (StepCounter>=StepCount):
+            StepCounter = 0
+        if (StepCounter<0):
+            StepCounter = StepCount+StepDir
     
     # Wait before moving on
     time.sleep(WaitTime)
