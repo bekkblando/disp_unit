@@ -3,17 +3,7 @@
 import sys
 import time
 import RPi.GPIO as GPIO
-import requests
  
- from websocket import create_connection
-ws = create_connection(f'ws://server_url/websocket')
-print "Sending 'Hello, World'..."
-ws.send("Hello, World")
-print "Sent"
-print "Reeiving..."
-result =  ws.recv()
-print "Received '%s'" % result
-ws.close()
 
 # Use BCM GPIO references
 # instead of physical pin numbers
@@ -28,7 +18,6 @@ StepPins = [17,22,23,24]
  
 # Set all pins as output
 for pin in StepPins:
-  print "Setup pins"
   GPIO.setup(pin,GPIO.OUT)
   GPIO.output(pin, False)
  
@@ -65,7 +54,6 @@ while time.time() < timeout:
   for pin in range(0, 4):
     xpin = StepPins[pin]
     if Seq[StepCounter][pin]!=0:
-      print " Enable GPIO %i" %(xpin)
       GPIO.output(xpin, True)
     else:
       GPIO.output(xpin, False)
@@ -81,4 +69,3 @@ while time.time() < timeout:
  
   # Wait before moving on
   time.sleep(WaitTime)
-  requests.post(f'{server_url}/dispensed/{dispenser_id}')
